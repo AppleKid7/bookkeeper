@@ -7,10 +7,8 @@ from django.contrib.auth.models import User
 
 
 def index(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = request.DATA
-        username = data.get('username')
-        password = data.get('password')
         client_id = CLIENT_ID
         host = HOST
         r = requests.post(host + '/o/token/', data={'client_id': client_id,
@@ -25,4 +23,7 @@ def index(request):
                                 headers={
                                     'Authorization': token_type + ' ' + token})
         from ipdb import set_trace; set_trace()
+    else:
+        form = NameForm()
+    return render(request, 'index.html', {'form': form})
 
